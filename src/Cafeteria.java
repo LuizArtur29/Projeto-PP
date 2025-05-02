@@ -1,31 +1,29 @@
+import Itens.Cafe;
+import Itens.Cappuccino;
+import Itens.Cha;
+import Pedidos.Cliente;
+import Pedidos.Pedido;
+
 public class Cafeteria {
     public static void main(String[] args) {
-        // Criando a fábrica de bebidas
-        BebidaFactory fabrica = new BebidaFactory();
+        // Criando clientes
+        Cliente joao = new Cliente("João");
+        Cliente maria = new Cliente("Maria");
 
-        // Criando clientes (observers)
-        Cliente cliente1 = new Cliente("João");
-        Cliente cliente2 = new Cliente("Maria");
+        // Criando e processando pedido 1
+        Pedido pedido1 = new Pedido();
+        pedido1.adicionarObservador(joao);
+        pedido1.adicionarItem(new Cafe());
+        pedido1.adicionarItem(new Cha());
+        pedido1.processarPedido(false);
 
-        // Criando pedidos
-        Bebida cafe = fabrica.criarBebida("cafe");
-        Pedido pedido1 = new Pedido(cafe);
-        pedido1.adicionarObservador(cliente1);
+        // Criando e processando pedido 2
+        Pedido pedido2 = new Pedido();
+        pedido2.adicionarObservador(maria);
+        pedido2.adicionarItem(new Cappuccino());
+        pedido2.adicionarItem(new Cafe());
+        pedido2.processarPedido(true);
 
-        Bebida cappuccino = fabrica.criarBebida("cappuccino");
-        Pedido pedido2 = new Pedido(cappuccino);
-        pedido2.adicionarObservador(cliente2);
-
-        // Processando os pedidos
-        System.out.println("Processando pedido 1 - " + pedido1.getBebida().getNome());
-        pedido1.prepararPedido();
-
-        System.out.println("\nProcessando pedido 2 - " + pedido2.getBebida().getNome());
-        pedido2.prepararPedido();
-
-        // Adicionando um novo observador durante o processo
-        Cliente cliente3 = new Cliente("Carlos");
-        pedido2.adicionarObservador(cliente3);
-        pedido2.setStatus("Entregue");
+        System.out.println("\nTotal de pedidos realizados: " + Pedido.getTotalPedidos());
     }
 }
